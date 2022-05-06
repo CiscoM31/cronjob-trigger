@@ -57,6 +57,4 @@ jobs:
           )
           for image in "${images[@]}"; do
             docker push ${image}:${CONTROLLER_TAG}
-            docker tag ${image}:${CONTROLLER_TAG} ${image}:${env.RELEASE_VERSION}
-            docker push ${image}:${env.RELEASE_VERSION}
           done
