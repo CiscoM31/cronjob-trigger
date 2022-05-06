@@ -60,7 +60,7 @@ jobs:
       - run: go mod download
       - run: make bootstrap
       - run: |
-          export CONTROLLER_TAG="master"
+          export CONTROLLER_TAG="latest"
           export CONTROLLER_IMAGE=${CONTROLLER_IMAGE_NAME}:${CONTROLLER_TAG}
           export FUNCTION_IMAGE_BUILDER=${BUILDER_IMAGE_NAME}:${CONTROLLER_TAG}
           export PATH=$(pwd)/bats/libexec:~/go/bin:/home/runner/work/:$PATH
@@ -74,7 +74,7 @@ jobs:
           )
           for image in "${images[@]}"; do
             echo "Pulling ${image}:${CONTROLLER_TAG}"
-            docker push ${image}:latest
-            docker tag ${image}:latest ${image}:${env.RELEASE_VERSION}
+            docker push ${image}:${CONTROLLER_TAG}
+            docker tag ${image}:${CONTROLLER_TAG} ${image}:${env.RELEASE_VERSION}
             docker push ${image}:${env.RELEASE_VERSION}
           done
