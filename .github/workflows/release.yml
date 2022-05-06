@@ -38,7 +38,7 @@ jobs:
         with:
           name: build-manifest
           path: ./build-manifests/
-  build-images-onmerge:
+  build-images-onrelease:
     runs-on: ubuntu-latest
     env:
       CONTROLLER_IMAGE_NAME: ciscom31/function-controller
@@ -57,14 +57,10 @@ jobs:
             ${{ runner.os }}-go-
       - name: Set env
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-      - name: Test
-        run: |
-          echo $RELEASE_VERSION
-          echo ${{ env.RELEASE_VERSION }}
       - run: go mod download
       - run: make bootstrap
       - run: |
-          export CONTROLLER_TAG="${GITHUB_REF_NAME}"
+          export CONTROLLER_TAG="master"
           export CONTROLLER_IMAGE=${CONTROLLER_IMAGE_NAME}:${CONTROLLER_TAG}
           export FUNCTION_IMAGE_BUILDER=${BUILDER_IMAGE_NAME}:${CONTROLLER_TAG}
           export PATH=$(pwd)/bats/libexec:~/go/bin:/home/runner/work/:$PATH
