@@ -1,3 +1,4 @@
+name: Cronjob-trigger Onrelease
 on:
   push:
     tags:
