@@ -20,29 +20,15 @@ jobs:
       - run: make binary
       - run: make test
       - run: make validation
-      - run: make all-yaml
-      - run: |
-          mkdir build-manifests
-          GIT_COMMIT=$(git rev-parse --short HEAD)
-          for f in kubeless kubeless-non-rbac kubeless-openshift; do
-            sed -i.bak 's/:latest/'":${GIT_COMMIT}"'/g' ${f}.yaml
-            cp ${f}.yaml build-manifests/
-          done
-      - name: Store kubeless binary
+      - name: Store cronjob-trigger-controller binary
         uses: actions/upload-artifact@v2
         with:
-          name: kubeless
-          path: ~/go/bin/kubeless
-      - name: Store build manifests
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-manifest
-          path: ./build-manifests/
+          name: cronjob-trigger-controller
+          path: ~/go/bin/cronjob-trigger-controller
   build-images-onrelease:
     runs-on: ubuntu-latest
     env:
-      CONTROLLER_IMAGE_NAME: ciscom31/function-controller
-      BUILDER_IMAGE_NAME: ciscom31/function-image-builder
+      CRONJOB_CONTROLLER_IMAGE_NAME: ciscom31/cronjob-controller-image
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
