@@ -60,20 +60,16 @@ jobs:
       - run: go mod download
       - run: make bootstrap
       - run: |
-          export CONTROLLER_TAG="latest"
-          export CONTROLLER_IMAGE=${CONTROLLER_IMAGE_NAME}:${CONTROLLER_TAG}
-          export FUNCTION_IMAGE_BUILDER=${BUILDER_IMAGE_NAME}:${CONTROLLER_TAG}
+          export CONTROLLER_TAG="${GITHUB_REF_NAME}"
+          export CRONJOB_CONTROLLER_IMAGE=${CRONJOB_CONTROLLER_IMAGE_NAME}:${CONTROLLER_TAG}
           export PATH=$(pwd)/bats/libexec:~/go/bin:/home/runner/work/:$PATH
           export GOPATH=$(pwd)/go
-          ./script/pull-or-build-image.sh function-controller
-          ./script/pull-or-build-image.sh function-image-builder
+          ./script/pull-or-build-image.sh cronjob-controller-image
           docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"   
           images=( 
-            $CONTROLLER_IMAGE_NAME
-            $BUILDER_IMAGE_NAME 
+            $CRONJOB_CONTROLLER_IMAGE_NAME
           )
           for image in "${images[@]}"; do
-            echo "Pulling ${image}:${CONTROLLER_TAG}"
             docker push ${image}:${CONTROLLER_TAG}
             docker tag ${image}:${CONTROLLER_TAG} ${image}:${env.RELEASE_VERSION}
             docker push ${image}:${env.RELEASE_VERSION}
