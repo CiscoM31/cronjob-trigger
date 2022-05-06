@@ -79,6 +79,6 @@ jobs:
           for image in "${images[@]}"; do
             echo "Pulling ${image}:${CONTROLLER_TAG}"
             docker push ${image}:${CONTROLLER_TAG}
-            docker tag ${image}:${CONTROLLER_TAG} ${image}:latest
-            docker push ${image}:latest
+            docker tag ${image}:${CONTROLLER_TAG} ${image}:${env.RELEASE_VERSION}
+            docker push ${image}:${env.RELEASE_VERSION}
           done
