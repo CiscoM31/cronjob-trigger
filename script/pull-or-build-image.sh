@@ -38,7 +38,7 @@ case "${TARGET}" in
       docker pull $image || make $TARGET FUNCTION_IMAGE_BUILDER=$image
       push $image
       ;;
-    "cronjob-controller-image")
+    "cronjob-trigger-controller")
       image=${CRONJOB_CONTROLLER_IMAGE:?}
       docker pull $image || make $TARGET CRONJOB_CONTROLLER_IMAGE=$image
       push $image
