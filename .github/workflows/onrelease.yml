@@ -56,8 +56,7 @@ jobs:
           images=(
             cronjob-trigger-controller
           )
-          for image in "${images[@]}"; do
-            docker push ${image}:${CONTROLLER_TAG}
-            docker tag ${image}:${CONTROLLER_TAG} ${image}:latest
-            docker push ${image}:latest
-          done
+          docker tag cronjob-controller-image:${CONTROLLER_TAG} cronjob-trigger-controller:${CONTROLLER_TAG}
+          docker push cronjob-trigger-controller:${CONTROLLER_TAG}
+          docker tag cronjob-trigger-controller:${CONTROLLER_TAG} cronjob-trigger-controller:latest
+          docker push cronjob-trigger-controller:latest
