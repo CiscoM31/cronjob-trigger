@@ -123,7 +123,7 @@ jobs:
       - <<: *restore_workspace
       - run: sudo apt-get update -y
       - run: sudo apt-get install -y apache2-utils
-      - run: ./script/pull-or-build-image.sh cronjob-controller-image
+      - run: ./script/pull-or-build-image.sh cronjob-trigger-controller
       - run: ./script/integration-tests minikube deployment
       - run: ./script/integration-tests minikube cronjob
   push_latest_images:

@@ -24,7 +24,7 @@ binary:
 cronjob-controller-build:
 	./script/binary-controller -os=$(OS) -arch=$(ARCH) cronjob-controller github.com/kubeless/cronjob-trigger/cmd/cronjob-trigger-controller
 
-cronjob-controller-image: docker/cronjob-controller
+cronjob-trigger-controller: docker/cronjob-controller
 	$(DOCKER) build -t $(CRONJOB_CONTROLLER_IMAGE) $<
 
 docker/cronjob-controller: cronjob-controller-build
